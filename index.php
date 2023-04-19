@@ -33,7 +33,7 @@ $stmt->execute();
 $task_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //checked 시 수행 여부 업데이트
-function update_is_com($param_arr = array())
+function update_is_com($db_conn, $param_arr = array())
 {
     $sql =
         "UPDATE task
@@ -46,7 +46,6 @@ function update_is_com($param_arr = array())
     );
 
     try {
-        $db_conn = get_db_conn();
         $stmt = $db_conn->prepare($sql);
         $stmt->execute($arr_prepare);
         $result = $stmt->rowCount();
