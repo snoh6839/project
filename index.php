@@ -39,19 +39,22 @@ $stmt->execute();
 $task_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //checked 시 수행 여부 업데이트
-function update_is_com(&$param_arr)
+function update_is_com($param_arr = array())
 {
     $result_cnt = 0;
     $sql =
         " UPDATE "
         . " task "
         . " SET "
-        . " is_com = '1' "
+        . " is_com = :is_com "
         . " WHERE "
         . " task_no = :task_no ";
 
     $arr_prepare =
-        array(":task_no" => $param_arr["task_no"]);
+        array(
+            ":is_com" => isset($param_arr["is_com"][0]) ? $param_arr["is_com"][0] : 0,
+            ":task_no" => isset($param_arr["task_no"][0]) ? $param_arr["task_no"][0] : 0
+        );
 
     $db_conn = null;
     try {
@@ -59,7 +62,7 @@ function update_is_com(&$param_arr)
         $db_conn->beginTransaction();
         $stmt = $db_conn->prepare($sql);
         $stmt->execute($arr_prepare);
-        $result_cnt = $stmt->rowCount();
+        $result = $stmt->rowCount();
         $db_conn->commit();
     } catch (Exception $e) {
         $db_conn->rollback();
@@ -70,8 +73,10 @@ function update_is_com(&$param_arr)
         }
     }
 
-    return $result_cnt;
+    return $result;
 }
+
+
 
 
 $http_method = $_SERVER["REQUEST_METHOD"];
@@ -81,7 +86,8 @@ if ($http_method === "POST") {
     $arr_post = $_POST;
     $is_com_old =
         array(
-            "task_no" => $arr_post["task_no"]
+            "is_com" => $arr_post["is_com"],
+            "task_no" => $arr_post["task_no"][0]
         );
 
     $is_com = update_is_com($is_com_old);
@@ -140,10 +146,9 @@ if ($http_method === "POST") {
                                 <td>
                                     <form action="" method="post">
                                         <input type="hidden" name="task_no[]" value="<?php echo $data['task_no']; ?>">
-                                        <input type="checkbox" name="is_com_<?php echo $data['task_no']; ?>" value="1" <?php echo $data['is_com'] == '1' ? 'checked' : ''; ?> onchange="this.form.submit();">
+                                        <input type="checkbox" name="is_com[]" value="1" <?php echo $data['is_com'] == '1' ? 'checked' : ''; ?> onchange="if(this.checked){this.value='1';}else{this.value='0';};this.form.submit();">
                                     </form>
                                 </td>
-
                             </tr>
                         <?php } ?>
                     </tbody>
