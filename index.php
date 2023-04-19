@@ -14,7 +14,7 @@ if (!$db_conn) {
 
 // 전체 데이터 수 가져오기
 // inner join으로 task와 category table join 하기
-$stmt = $db_conn->prepare('SELECT t.*, c.category_name FROM task t INNER JOIN category c ON t.category_no = c.category_no LIMIT :start_index, :page_data_count');
+$stmt = $db_conn->prepare('SELECT t.*, c.category_name FROM task t INNER JOIN category c ON t.category_no = c.category_no order by task_no DESC LIMIT :start_index, :page_data_count ');
 
 $stmt->bindParam(':start_index', $start_data_index, PDO::PARAM_INT);
 $stmt->bindParam(':page_data_count', $page_data_count, PDO::PARAM_INT);
@@ -32,7 +32,7 @@ $current_page_no = min($current_page_no, $total_page_count); // 페이지 번호
 
 // 해당 페이지에 보여줄 데이터 구하기
 $start_data_index = ($current_page_no - 1) * $page_data_count; // 페이지의 시작 데이터 인덱스
-$stmt = $db_conn->prepare('SELECT t.*, c.category_name FROM task t INNER JOIN category c ON t.category_no = c.category_no LIMIT :start_index, :page_data_count');
+$stmt = $db_conn->prepare('SELECT t.*, c.category_name FROM task t INNER JOIN category c ON t.category_no = c.category_no order by task_no DESC LIMIT :start_index, :page_data_count ');
 $stmt->bindParam(':start_index', $start_data_index, PDO::PARAM_INT);
 $stmt->bindParam(':page_data_count', $page_data_count, PDO::PARAM_INT);
 $stmt->execute();
@@ -185,6 +185,10 @@ if ($http_method === "POST") {
                 <li><a href="<?php echo $_SERVER['PHP_SELF'] . '?page=' . ($total_page_count); ?>">▶▶</a></li>
             </ul>
         </div>
+    </div>
+    <div class="btn-wrap">
+        <a href="" class="btn index1">그래프</a>
+        <a href="" class="btn index2">추가</a>
     </div>
 </body>
 

@@ -8,6 +8,10 @@
 --inner-bg-bottom: #F8EDFB;
 --font-color: #605E61;
 
+--index1-color : #9F8BD0;
+--index2-color : #ADA3DF;
+--index3-color : #FD9CBD;
+
 }
 
 * {
@@ -168,4 +172,27 @@ input[type="checkbox"]:checked::after {
     height: 100%;
     font-weight: 500;
     background-color: var(--border-color);
+}
+
+.btn-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.btn-wrap .btn {
+    width: 36px;
+    font-size: 20px;
+    color: var(--inner-bg-top);
+    padding: 6px;
+    box-sizing: border-box;
+    border: 1px solid var(--main-bg-color);
+}
+
+.index1{
+    background-color: var(--index1-color);
+}
+
+.index2 {
+    background-color: var(--index2-color);
 }

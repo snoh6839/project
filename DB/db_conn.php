@@ -23,3 +23,4 @@ function get_db_conn() {
 		return null;
 	}
 }
+
