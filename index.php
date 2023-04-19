@@ -9,30 +9,28 @@ $db_conn = get_db_conn();
 if (!$db_conn) {
     // DB 연결 실패 시, 예외 발생
     throw new Exception("DB 연결에 실패했습니다.");
+    
+    
 }
 
-
 // 전체 데이터 수 가져오기
-// inner join으로 task와 category table join 하기
-$sql = 'SELECT t.*, c.category_name FROM task t INNER JOIN category c ON t.category_no = c.category_no order by task_no DESC LIMIT :start_index, :page_data_count ';
-$stmt = $db_conn->prepare($sql);
-$stmt->bindParam(':start_index', $start_data_index, PDO::PARAM_INT);
-$stmt->bindParam(':page_data_count', $page_data_count, PDO::PARAM_INT);
-
 $total_data_count = $db_conn->query('SELECT COUNT(*) FROM task')->fetchColumn();
+
+// task table과 category table을 별도로 조회한 후 PHP에서 조합하여 출력
+$sql = 'SELECT t.*, c.category_name FROM task t, category c WHERE t.category_no = c.category_no ORDER BY task_no DESC LIMIT :page_data_count OFFSET :start_index';
+$stmt = $db_conn->prepare($sql);
 $page_data_count = 5; // 페이지당 보여줄 데이터 수
 $total_page_count = ceil($total_data_count / $page_data_count);
 
-// 현재 페이지 번호 구하기
+// 해당 페이지에 보여줄 데이터 구하기
 $current_page_no = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $current_page_no = max($current_page_no, 1); // 페이지 번호는 1 이상이어야 함
 $current_page_no = min($current_page_no, $total_page_count); // 페이지 번호는 전체 페이지 수 이하이어야 함
-
-// 해당 페이지에 보여줄 데이터 구하기
 $start_data_index = ($current_page_no - 1) * $page_data_count; // 페이지의 시작 데이터 인덱스
+$stmt->bindParam(':start_index', $start_data_index, PDO::PARAM_INT);
+$stmt->bindParam(':page_data_count', $page_data_count, PDO::PARAM_INT);
 $stmt->execute();
 $task_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 
 //checked 시 수행 여부 업데이트
 function update_is_com($param_arr = array())
