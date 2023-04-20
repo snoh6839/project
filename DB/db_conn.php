@@ -139,6 +139,7 @@ function update_task_info_no( &$param_arr )
 		,":is_com"		=> $param_arr["is_com"]
 		,":task_memo"	=> $param_arr["task_memo"]
 		,":category_no"	=> $param_arr["category_no"]
+		,":task_no" => $param_arr["task_no"]
 	);
 	
 	$conn = null;
