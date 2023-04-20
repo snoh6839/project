@@ -1,16 +1,16 @@
 @charset "UTF-8";
 
 :root {
-/* color */
---border-color: #A998DC;
---main-bg-color: #d9d9d9;
---inner-bg-top: #fff;
---inner-bg-bottom: #F8EDFB;
---font-color: #605E61;
+    /* color */
+    --border-color: #A998DC;
+    --main-bg-color: #d9d9d9;
+    --inner-bg-top: #fff;
+    --inner-bg-bottom: #F8EDFB;
+    --font-color: #605E61;
 
---index1-color : #9F8BD0;
---index2-color : #ADA3DF;
---index3-color : #FD9CBD;
+    --index1-color: #9F8BD0;
+    --index2-color: #ADA3DF;
+    --index3-color: #FD9CBD;
 
 }
 
@@ -81,6 +81,7 @@ body {
     justify-content: space-between;
     width: 80%;
 }
+
 .listTable {
     width: 100%;
     display: flex;
@@ -121,7 +122,8 @@ td {
     font-size: 20px;
 }
 
-.checkbox_btn, .checkbox_btn_com {
+.checkbox_btn,
+.checkbox_btn_com {
     /* appearance: none; */
     background-color: transparent;
     margin: 0;
@@ -193,7 +195,7 @@ td {
     border: 1px solid var(--main-bg-color);
 }
 
-.index1{
+.index1 {
     background-color: var(--index1-color);
 }
 
