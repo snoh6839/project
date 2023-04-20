@@ -3,8 +3,39 @@ define("DOC_ROOT", $_SERVER["DOCUMENT_ROOT"] . "/"); // $_SERVER : 슈퍼글로�
 define("URL_DB", DOC_ROOT . "project/DB/db_conn.php");
 include_once(URL_DB);
 
+<<<<<<< HEAD
 // Request Method를 획득
 $http_method = $_SERVER["REQUEST_METHOD"];
+=======
+    // GET 일 때
+    if ( $http_method === "GET" )
+    {
+        $task_no = 1;
+        if( isset( $_GET["task_no"] ) )
+        {
+            $task_no = $_GET["task_no"];
+        }
+        $result_info = select_task_info_no( $task_no );
+    }
+// POST 일 때
+    else if ($http_method === "POST")
+    {
+        $arr_post = $_POST;
+        $arr_info= 
+            array(
+                "task_no"       => $arr_post["task_no"]
+                ,"task_date"	=> $arr_post["task_date"]
+                ,"start_time"	=> $arr_post["start_time"]
+                ,"end_time" 	=> $arr_post["end_time"]
+                ,"task_title"	=> $arr_post["task_title"]
+                ,"is_com"		=> $arr_post["is_com"]
+                ,"task_memo"	=> $arr_post["task_memo"]
+                ,"category_no"	=> $arr_post["category_no"]
+            );
+            
+		// update
+		$result_cnt = update_task_info_no( $arr_info );
+>>>>>>> f886956422307545a1a0e1a18cecec1d19b23f27
 
 // GET 일 때
 if ($http_method === "GET") {
