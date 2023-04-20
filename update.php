@@ -16,8 +16,8 @@
         }
         $result_info = select_task_info_no( $task_no );
     }
-    // POST 일 때
-    else
+// POST 일 때
+    else if ($http_method === "POST")
     {
         $arr_post = $_POST;
         $arr_info= 
