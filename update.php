@@ -3,10 +3,6 @@ define("DOC_ROOT", $_SERVER["DOCUMENT_ROOT"] . "/"); // $_SERVER : 슈퍼글로�
 define("URL_DB", DOC_ROOT . "project/DB/db_conn.php");
 include_once(URL_DB);
 
-<<<<<<< HEAD
-// Request Method를 획득
-$http_method = $_SERVER["REQUEST_METHOD"];
-=======
     // GET 일 때
     if ( $http_method === "GET" )
     {
@@ -35,7 +31,6 @@ $http_method = $_SERVER["REQUEST_METHOD"];
             
 		// update
 		$result_cnt = update_task_info_no( $arr_info );
->>>>>>> f886956422307545a1a0e1a18cecec1d19b23f27
 
 // GET 일 때
 if ($http_method === "GET") {

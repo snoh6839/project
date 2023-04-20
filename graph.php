@@ -32,7 +32,3 @@ foreach ($row1 as $avg) {
 foreach ($result2 as $row2) {
     echo $row2['category_name'] . ": " . $row2['num_count'] . "<br>";
 }
-
-
-
-?>
