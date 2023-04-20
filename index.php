@@ -9,8 +9,6 @@ $db_conn = get_db_conn();
 if (!$db_conn) {
     // DB 연결 실패 시, 예외 발생
     throw new Exception("DB 연결에 실패했습니다.");
-    
-    
 }
 
 // 전체 데이터 수 가져오기
@@ -33,7 +31,7 @@ $stmt->execute();
 $task_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 //checked 시 수행 여부 업데이트
-function update_is_com($db_conn, $param_arr = array())
+function update_is_com($param_arr)
 {
     $sql =
         "UPDATE task
@@ -41,30 +39,42 @@ function update_is_com($db_conn, $param_arr = array())
         WHERE task_no = :task_no";
 
     $arr_prepare = array(
-        ":is_com" => $param_arr["is_com"] ?? 0,
-        ":task_no" => $param_arr["task_no"] ?? 0
+        ":is_com" => $param_arr["is_com"],
+        ":task_no" => $param_arr["task_no"]
     );
 
+    $db_conn = get_db_conn();
+
     try {
+        $db_conn->beginTransaction();
         $stmt = $db_conn->prepare($sql);
         $stmt->execute($arr_prepare);
         $result = $stmt->rowCount();
-        return $result;
+        $db_conn->commit();
     } catch (Exception $e) {
+        $db_conn->rollback();
         return $e->getMessage();
+    } finally {
+        if ($db_conn !== null) {
+            $db_conn = null;
+        }
     }
+    return $result;
 }
 
 
 
 
 $http_method = $_SERVER["REQUEST_METHOD"];
+// $db_conn = get_db_conn();
 
 if ($http_method === "POST") {
     $arr_post = $_POST;
+    $test1 = isset($arr_post["is_com"]) ? $arr_post["is_com"] : 0;
+    $test2 = isset($arr_post["task_no"]) ? $arr_post["task_no"] : 0;
     $is_com_old = array(
-        "is_com" => isset($arr_post["is_com"]) ? $arr_post["is_com"] : 0,
-        "task_no" => isset($arr_post["task_no"][0]) ? $arr_post["task_no"][0] : 0
+        "is_com" => $test1,
+        "task_no" => $test2
     );
     $is_com = update_is_com($is_com_old);
 }
@@ -105,22 +115,24 @@ if ($http_method === "POST") {
                             <th>수행여부</th>
                         </tr>
                     </thead>
-                     <tbody>
+                    <tbody>
                         <?php foreach ($task_data as $data) { ?>
                             <tr <?php echo $data['is_com'] == '1' ? 'class="completed"' : '' ?>>
-                                <td><?php echo $data['task_no'] ?></td>
-                                <td><?php echo $data['task_date'] ?></td>
-                                <td><?php echo $data['category_name'] ?></td>
-                                <td><?php echo $data['task_title'] ?></td>
+
+                                <td><a href="/project/detail.php?task_no=<?php echo $data["task_no"] ?>"><?php echo $data['task_no'] ?></a></td>
+                                <td><a href="/project/detail.php?task_no=<?php echo $data["task_no"] ?>"><?php echo $data['task_date'] ?></a></td>
+                                <td><a href="/project/detail.php?task_no=<?php echo $data["task_no"] ?>"><?php echo $data['category_name'] ?></a></td>
+                                <td><a href="/project/detail.php?task_no=<?php echo $data["task_no"] ?>"><?php echo $data['task_title'] ?></a></td>
+
                                 <td>
                                     <form action="" method="POST">
-                                        <input type="hidden" name="task_no[]" value="<?php echo $data['task_no'] ?>">
+                                        <input type="hidden" name="task_no" value="<?php echo $data['task_no'] ?>">
                                         <?php if ($data['is_com'] == '1') { ?>
-                                            <button><img src="/completed.png"></button>
+                                            <button class="checkbox_btn_com"></button>
                                         <?php } else { ?>
-                                            <button><img src="/not_completed.png"></button>
+                                            <button class="checkbox_btn"></button>
                                         <?php } ?>
-                                        <input type="hidden" name="is_com[]" value="<?php echo $data['is_com'] == '1' ? '0' : '1' ?>">
+                                        <input type="hidden" name="is_com" value="<?php echo $data['is_com'] == '1' ? '0' : '1' ?>">
                                     </form>
                                 </td>
                             </tr>
@@ -161,8 +173,8 @@ if ($http_method === "POST") {
         </div>
     </div>
     <div class="btn-wrap">
-        <a href="" class="btn index1">그래프</a>
-        <a href="" class="btn index2">추가</a>
+        <a href="/project/graph.php" class="btn index1">그래프</a>
+        <a href="/project/write.php" class="btn index2">추가</a>
     </div>
 </body>
 

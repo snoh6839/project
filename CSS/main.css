@@ -97,6 +97,10 @@ tr {
     border-bottom: 1px solid var(--border-color);
 }
 
+tr.completed {
+    text-decoration: line-through;
+}
+
 th {
     padding: 20px 15px;
     text-align: center;
@@ -117,8 +121,8 @@ td {
     font-size: 20px;
 }
 
-input[type="checkbox"] {
-    appearance: none;
+.checkbox_btn, .checkbox_btn_com {
+    /* appearance: none; */
     background-color: transparent;
     margin: 0;
     width: 1.15em;
@@ -127,7 +131,7 @@ input[type="checkbox"] {
     border-radius: 0.15em;
 }
 
-input[type="checkbox"]:checked::after {
+.checkbox_btn_com::after {
     content: 'v';
     color: var(--border-color);
     text-align: center;
