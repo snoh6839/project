@@ -10,7 +10,7 @@
     if ( $http_method === "GET" )
     {
         $task_no = 1;
-        if( array_key_exists( "task_no", $_GET ) )
+        if( isset( $_GET["task_no"] ) )
         {
             $task_no = $_GET["task_no"];
         }
