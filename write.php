@@ -3,38 +3,16 @@ define( "DOC_ROOT", $_SERVER["DOCUMENT_ROOT"]."/" );
 define( "URL_DB", DOC_ROOT."project/DB/db_conn.php"); 
 include_once( URL_DB );
 
+// 입력한 데이터들을 받아와서 최종적으로 index페이지로 전송해 주도록 하는 구문
 $http_method = $_SERVER["REQUEST_METHOD"];
 if ( $http_method === "POST" )
 {
     $arr_post = $_POST;
     
-    $result_cnt = write_info( $arr_post );
-    var_dump($result_cnt);
+    $result_write = write_info( $arr_post );
+    header( "location:index.php" );
     exit();
 }
-
-//레코드 전체 수를 가져오는 함수 - 작성된 글을 넣기 위해 db의 레코드 순번을 가져오기 위한 코드
-// function task_recode_cnt()
-// {
-//     $sql = " SELECT " 
-//     ." count(*) " 
-//     ." FROM " 
-//     ." task "
-//     ;
-
-//     $arr_prepare = array();
-
-//     $conn = null;
-
-    
-//     get_db_conn($conn);
-//     $stmt = $conn->prepare($sql); // Prepare Statement를 생성
-//     $stmt->execute($arr_prepare); //쿼리 실행
-//     $result = $stmt->fetchAll();
-
-//     return $result;
-// }
-
 
 
 //DB에 입력될 데이터 레코드를 입력하는 sql문
@@ -82,6 +60,7 @@ function write_info(&$param_arr)
             $stmt->execute( $arr_prepare ); //DB request
             $result_cnt = $stmt->rowCount(); // 업데이트 되서 영향을 받은 행의 숫자를 가져온다.
             $db_conn->commit();
+            
         } 
         catch ( Exception $e) 
         {
@@ -110,50 +89,57 @@ function write_info(&$param_arr)
 </head>
 <body>
     <form method = "post" action = "">
-        <div class = date_title>
+        <div class = top>
             <label for = "date_title">
             <input type="date" name = "task_date" ></label>
         </div>
+        <div class = bottom>
         <br>
-        시작시간<input type="time" name = "start_time" ></label>
-        <br>
-        종료시간<input type="time" name = "end_time" ></label>
-        <br>
-        <label for ="category">카테고리
-        
-            <select name = "category_no">
-                <!-- <option value= 0>카테고리를 선택해 주세요</option> -->
-                <option value= 1 >독서</option>
-                <option value= 2 >운동</option>
-                <option value= 3 >공부</option>
-                <option value= 4 >기상</option>
-                <option value= 5 >취미</option>
-                <option value= 6 >회의</option>
-                <option value= 7 >쇼핑</option>
-                <option value= 8 >요리</option>
-                <option value= 9 >청소</option>
-                <option value= 10 >친구</option>
-                <option value= 11 >가족</option>
-                <option value= 12 >여행</option>
-                <option value= 13 >영화</option>
-                <option value= 14 >휴식</option>
-                <option value= 15 >기타</option>
-                <option value= 16 >병원</option>
-                <option value= 17 >식사</option>
-            </select>
-        </label>
-        <br>
-        <label for ="task_title">제목 <input type="text" name ="task_title"></label>
-        <br>
-        <!-- <label for ="is_com">수행여부 <input type="checkbox" name = "is_com"></label> -->
-        <br>
-        <label for ="task_memo">메모 <input type="text" name = "task_memo"></label>
-        <br>
-        <label for="write_button"><button type ="submit">작성</button></label>
+            <div class = listTable>
+                <thead>
+                    <th>시작시간<input type="time" name = "start_time" ></label></th>
+                    <th>종료시간<input type="time" name = "end_time" ></label></th>
+                </thead>
+                <br>
+                <label for ="category">카테고리
+                
+                    <select name = "category_no">
+                        <!-- <option value= 0>카테고리를 선택해 주세요</option> -->
+                        <option value= 1 >독서</option>
+                        <option value= 2 >운동</option>
+                        <option value= 3 >공부</option>
+                        <option value= 4 >기상</option>
+                        <option value= 5 >취미</option>
+                        <option value= 6 >회의</option>
+                        <option value= 7 >쇼핑</option>
+                        <option value= 8 >요리</option>
+                        <option value= 9 >청소</option>
+                        <option value= 10 >친구</option>
+                        <option value= 11 >가족</option>
+                        <option value= 12 >여행</option>
+                        <option value= 13 >영화</option>
+                        <option value= 14 >휴식</option>
+                        <option value= 15 >기타</option>
+                        <option value= 16 >병원</option>
+                        <option value= 17 >식사</option>
+                    </select>
+                </label>
+                <br>
+                <label for ="task_title">제목 <input type="text" name ="task_title"></label>
+                <br>
+                <!-- <label for ="is_com">수행여부 <input type="checkbox" name = "is_com"></label> -->
+                <br>
+                <label for ="task_memo">메모 <input type="text" name = "task_memo"></label>
+                <br>
+                <button type = "submit">작성</button>
+            </div>
+        </div>
     </form>
+
 
 
 
 
 </body>
 </html>
+
