@@ -51,70 +51,10 @@ $evalu = $result3->fetchall();
 
 
 // 결과 출력
+foreach ($row1 as $avg) {
+    echo "최근 일주일간의 기상카테고리 시작시간 평균: " . gmdate("H:i:s", $avg["avg_start_time"]) . "<br><br>";
+}
 
-// foreach ($row1 as $avg) {
-//     "최근 한달간의 기상카테고리 시작시간 평균: " . gmdate("H:i:s", $avg["avg_start_time"]) . "<br><br>";
-// }
-
-// foreach ($result2 as $row2) {
-//     echo "최근 한달간의 카테고리별 사용 횟수: " . $row2['category_name'] . ": " . $row2['num_count'] . "<br>";
-// }
-?>
-
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="project\CSS\main.css">
-    <link rel="stylesheet" href="project\CSS\write.css">
-    <title>Document</title>
-</head>
-<body>
-    <ul>
-    <li> 최근 한달간의 평균 기상시간: <?php foreach ($row1 as $avg){ ?> <?php echo gmdate("H:i:s", $avg["avg_start_time"]);?> <?php } ?> </li>
-    </ul>
-    <ul>    
-    <li>최근 한달간의 수행횟수 <?php foreach ($result2 as $row2) { ?></li>
-    </ul>
-    <ul> 
-        <li>DO LIST: <?php echo $row2['category_name'] ?> </li> 
-        <li>AVER COUNT : <?php echo $row2['num_count']?> </li>
-    </ul>
-    <?php }?>
-    <br>
-    <ul>
-        <li>수행율: <?php foreach ($evalu as $completion_ratio) {  echo $completion_ratio['completion_ratio']* 100; }?> % </li>
-    </ul>
-            <?php 
-            if ($completion_ratio['completion_ratio']*100 >= 80) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/1.png" alt=""></div>
-            <?php
-            }
-            elseif ($completion_ratio['completion_ratio']*100 >= 70) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/2.png" alt=""></div>
-            <?php 
-            } 
-            elseif ($completion_ratio['completion_ratio']*100 >= 60) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/3.png" alt=""></div>
-            <?php
-            }
-            elseif ($completion_ratio['completion_ratio']*100 >= 50) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/4.png" alt=""></div>
-            <?php
-            }
-            else {
-            ?>
-                <div class = "img"> <img src="./SOURCE/5.png" alt=""></div>
-            <?php
-            }
-            ?>
-
-        
-</body>
-</html>
+foreach ($result2 as $row2) {
+    echo $row2['category_name'] . ": " . $row2['num_count'] . "<br>";
+}

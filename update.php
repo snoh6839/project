@@ -5,6 +5,12 @@
     
     // Request Method를 획득
     $http_method = $_SERVER["REQUEST_METHOD"];
+    define( "DOC_ROOT", $_SERVER["DOCUMENT_ROOT"]."/" ); // $_SERVER : 슈퍼글로벌 변수 ($_대문자) / 현재 사이트가 위치한 서버상의 위치
+    define( "URL_DB", DOC_ROOT."project/DB/db_conn.php" );
+    include_once( URL_DB );
+    
+    // Request Method를 획득
+    $http_method = $_SERVER["REQUEST_METHOD"];
 
     // GET 일 때
     if ( $http_method === "GET" )
