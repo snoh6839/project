@@ -24,7 +24,9 @@
 
     <div class="sidebox">
         <div class="top"></div>
-        <div class="bottom"></div>
+        <div class="bottom">
+            <div class="photo"></div>
+        </div>
     </div>
     <div class="contianer">
         <div class="title top">
@@ -43,23 +45,26 @@
                         <label for="end_time">종료시간 </label>
                         <input type="time" value="<?php echo $result_info["end_time"] ?>" name="end_time" readonly>
                     </li>
-                    <li><label for="category">카테고리 </label> <?php echo $result_info["category_name"] ?></li>
+                    <li>
+                        <label for="category">카테고리 </label>
+                        <input type="text" value="<?php echo $result_info["category_name"] ?>" readonly>
+                    </li>
                     <li>
                         <label for="title">제목 </label>
-                        <input type="text" value="<?php echo $result_info["task_title"] ?>" readonly>
+                        <input type="text" value="<?php echo $result_info["task_title"] ?>" id="title" readonly>
                     </li>
                     <li>
                         <label for="complete">수행여부 완료</label>
                         <?php if ($result_info['is_com'] == '1') { ?>
-                            <button type="button" class="checkbox_btn_com"></button>
+                            <button type="button" class="checkbox_btn_com" id="checkbox"></button>
                         <?php } else { ?>
-                            <button type="button" class="checkbox_btn"></button>
+                            <button type="button" class="checkbox_btn" id="checkbox"></button>
                         <?php } ?>
                         <input type="hidden" name="is_com" value="<?php echo $result_info['is_com'] == '1' ? '0' : '1' ?>">
                     </li>
                     <li>
-                        <label for="title">메모 </label>
-                        <input type="text" value="<?php echo $result_info["task_memo"] ?>" readonly>
+                        <label for="memo">메모 </label>
+                        <input type="text" value="<?php echo $result_info["task_memo"] ?>" id="memo" readonly>
                     </li>
                 </ul>
             </div>

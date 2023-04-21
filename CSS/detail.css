@@ -3,6 +3,7 @@ input
     border: none;
     outline: none;
     background-color: transparent;
+    font-size: large;
 }
 
 select
@@ -10,6 +11,8 @@ select
     border: none;
     outline: none;
     background-color: transparent;
+    font-size: large;
+    margin-left: 36px;
 }
 
 input[type="date"]
@@ -31,4 +34,35 @@ input[type="date"]
     border-bottom: 1px solid var(--border-color);
     padding: 20px;
     width: 100%;
+    font-size: larger;
+}
+
+.listTable ul li input {
+    margin-left: 40px;
+}
+
+#checkbox
+{
+    margin-left: 5px;
+}
+
+#title, #memo
+{
+    margin-left: 71px;
+}
+
+#memo
+{
+    margin-bottom: 70px;
+}
+
+.photo {
+    width: 88%;
+    height: 80%;
+    border: 8px solid #fff;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    background-image: url('../SOURCE/detail_side.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+
 }

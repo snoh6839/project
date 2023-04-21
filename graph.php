@@ -25,12 +25,20 @@ $row1 = $result1->fetchAll();
 
 
 // 최근 한달간의 카테고리별 사용 횟수 구하는 쿼리
-$sql2 = "SELECT category_name, COUNT(category_name) AS num_count
+
+$sql2 = " SELECT category_name, COUNT(category_name) AS num_count
         FROM Category c
         JOIN Task t ON c.category_no = t.category_no
         WHERE task_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
-        GROUP BY c.category_name";
+        AND c.category_name != '기상'
+        GROUP BY c.category_name
+        ORDER BY num_count DESC LIMIT 3 ";
+
+// $limit_num = 5;
+// $stmt->bindParam(':limit_num' , $limit_num, PDO::PARAM_INT);
+// $stmt->execute();
 $result2 = $conn->query($sql2);
+
 
 
 
@@ -67,54 +75,88 @@ $evalu = $result3->fetchall();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="project\CSS\main.css">
-    <link rel="stylesheet" href="project\CSS\write.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/graph.css">
     <title>Document</title>
 </head>
 <body>
-    <ul>
-    <li> 최근 한달간의 평균 기상시간: <?php foreach ($row1 as $avg){ ?> <?php echo gmdate("H:i:s", $avg["avg_start_time"]);?> <?php } ?> </li>
-    </ul>
-    <ul>    
-    <li>최근 한달간의 수행횟수 <?php foreach ($result2 as $row2) { ?></li>
-    </ul>
-    <ul> 
-        <li>DO LIST: <?php echo $row2['category_name'] ?> </li> 
-        <li>AVER COUNT : <?php echo $row2['num_count']?> </li>
-    </ul>
-    <?php }?>
-    <br>
-    <ul>
-        <li>수행율: <?php foreach ($evalu as $completion_ratio) {  echo $completion_ratio['completion_ratio']* 100; }?> % </li>
-    </ul>
-            <?php 
-            if ($completion_ratio['completion_ratio']*100 >= 80) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/1.png" alt=""></div>
-            <?php
-            }
-            elseif ($completion_ratio['completion_ratio']*100 >= 70) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/2.png" alt=""></div>
-            <?php 
-            } 
-            elseif ($completion_ratio['completion_ratio']*100 >= 60) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/3.png" alt=""></div>
-            <?php
-            }
-            elseif ($completion_ratio['completion_ratio']*100 >= 50) { 
-            ?>
-                <div class = "img"> <img src="./SOURCE/4.png" alt=""></div>
-            <?php
-            }
-            else {
-            ?>
-                <div class = "img"> <img src="./SOURCE/5.png" alt=""></div>
-            <?php
-            }
-            ?>
+<div class="sidebox">
+    <div class="top"></div>
+    <div class="bottom"></div>
+</div>
+<div class = "contianer">
+    <div class = "title top">
+        <h1><img src="./source/sun.png" id="sun">&nbsp;&nbsp;My Analytics&nbsp;&nbsp;<img src="./source/sun.png" id="sun"></h1> 
+    </div>
+        <div class = "bottom">
+            <div class="listTable">
+                <table>
+                <tbody>
+                    
+                        <tr>
+                            <td>최근 한달 평균 기상시간: </td>
+                            <td> <?php foreach ($row1 as $avg){ ?> <?php echo gmdate("H시 i분 s초", $avg["avg_start_time"]);?> <?php } ?></td>
+                        </tr>
 
-        
+                        <tr>
+                            <td>최근 한달 활동 TOP3<span>(기상제외)</span> <?php $i = 1; foreach ($result2 as $row2) { ?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php echo $i; ?> 위: <?php echo $row2['category_name']; ?>
+                            </td>
+                            <td> 활동 횟수: <?php echo $row2['num_count']?> 
+                                <?php if($i++ == 3) 
+                            { 
+                                break;
+                            }}?>
+                            </td>
+                        </tr>
+            <div>
+                <tr>
+                        <td>
+                            수행율: <?php foreach ($evalu as $completion_ratio) {  echo $completion_ratio['completion_ratio']* 100; }?> % 
+                        </td>
+                        <td>
+                            <div class = "sticy">
+                                <?php 
+                                if ($completion_ratio['completion_ratio']*100 >= 80) { 
+                                ?>
+                                    <div class = "img"> <img src="./SOURCE/1.png" alt=""></div>
+                                <?php
+                                }
+                                elseif ($completion_ratio['completion_ratio']*100 >= 70) { 
+                                ?>
+                                    <div class = "img"> <img src="./SOURCE/2.png" alt=""></div>
+                                <?php 
+                                } 
+                                elseif ($completion_ratio['completion_ratio']*100 >= 60) { 
+                                ?>
+                                    <div class = "img"> <img src="./SOURCE/3.png" alt=""></div>
+                                <?php
+                                }
+                                elseif ($completion_ratio['completion_ratio']*100 >= 50) { 
+                                ?>
+                                    <div class = "img"> <img src="./SOURCE/4.png" alt=""></div>
+                                <?php
+                                }
+                                else {
+                                ?>
+                                    <div class = "img"> <img src="./SOURCE/5.png" alt=""></div>
+                                <?php
+                                }
+                                ?>
+                            </div>
+                        </td>
+                    </tr>     
+                </div>
+                </table>
+            </div>   
+        </div>
+</div>
+<div class="btn-wrap">
+                    <button type="button" onclick="location.href='index.php'" class="btn index2">리스트</button>
+                </div>    
 </body>
 </html>

@@ -110,7 +110,7 @@ if ($http_method === "POST") {
     </div>
     <div class="contianer">
         <div class="title top">
-            <h1>MIRACLE MORNING</h1>
+            <h1><img src="./source/sun.png">  MIRACLE MORNING  <img src="./source/sun.png"></h1>    
         </div>
         <div class="bottom">
             <div class="listTable">
@@ -182,7 +182,7 @@ if ($http_method === "POST") {
         </div>
     </div>
     <div class="btn-wrap">
-        <a href="/project/graph.php" class="btn index1">그래프</a>
+        <a href="/project/graph.php" class="btn index1">통계</a>
         <a href="/project/write.php" class="btn index2">추가</a>
     </div>
 </body>

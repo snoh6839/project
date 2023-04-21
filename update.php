@@ -5,12 +5,6 @@
     
     // Request Method를 획득
     $http_method = $_SERVER["REQUEST_METHOD"];
-    define( "DOC_ROOT", $_SERVER["DOCUMENT_ROOT"]."/" ); // $_SERVER : 슈퍼글로벌 변수 ($_대문자) / 현재 사이트가 위치한 서버상의 위치
-    define( "URL_DB", DOC_ROOT."project/DB/db_conn.php" );
-    include_once( URL_DB );
-    
-    // Request Method를 획득
-    $http_method = $_SERVER["REQUEST_METHOD"];
 
     // GET 일 때
     if ( $http_method === "GET" )
@@ -80,7 +74,7 @@
                         <input type="time" value="<?php echo $result_info["end_time"] ?>" name="end_time">
                     </li>
                     <li>
-                        <label for="category">카테고리
+                        <label for="category">카테고리 
                         <select name = "category_no">
                         <option value= 1>독서</option>
                         <option value= 2>운동</option>
@@ -104,16 +98,16 @@
                     </li>
                     <li>
                         <label for="title">제목 </label>
-                        <input type="text" value="<?php echo $result_info["task_title"] ?>" name="task_title">
+                        <input type="text" value="<?php echo $result_info["task_title"] ?>" name="task_title" id="title">
                     </li>
                     <li>
                         <label for="complete">수행여부 완료</label>
                         <input type="hidden" name="is_com" value="0">
-                        <input type="checkbox" name="is_com" value="1" <?php echo $result_info['is_com'] == '1' ? 'checked' : '' ?>>
+                        <input type="checkbox" name="is_com" value="1" <?php echo $result_info['is_com'] == '1' ? 'checked' : '' ?> id="checkbox">
                     </li>
                     <li>
-                        <label for="title">메모 </label>
-                        <input type="text" value="<?php echo $result_info["task_memo"] ?>" name="task_memo">
+                        <label for="memo">메모 </label>
+                        <input type="text" value="<?php echo $result_info["task_memo"] ?>" name="task_memo" id="memo">
                     </li>
                 </ul>
             </div>
