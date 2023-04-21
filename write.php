@@ -85,6 +85,7 @@ function write_info(&$param_arr)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/write.css">
     <title>작성페이지</title>
 </head>
 <body>
@@ -96,40 +97,42 @@ function write_info(&$param_arr)
         <div class = bottom>
         <br>
             <div class = listTable>
-                <thead>
-                    <th>시작시간<input type="time" name = "start_time" ></label></th>
-                    <th>종료시간<input type="time" name = "end_time" ></label></th>
-                </thead>
-                <br>
-                <label for ="category">카테고리
-                
-                    <select name = "category_no">
-                        <!-- <option value= 0>카테고리를 선택해 주세요</option> -->
-                        <option value= 1 >독서</option>
-                        <option value= 2 >운동</option>
-                        <option value= 3 >공부</option>
-                        <option value= 4 >기상</option>
-                        <option value= 5 >취미</option>
-                        <option value= 6 >회의</option>
-                        <option value= 7 >쇼핑</option>
-                        <option value= 8 >요리</option>
-                        <option value= 9 >청소</option>
-                        <option value= 10 >친구</option>
-                        <option value= 11 >가족</option>
-                        <option value= 12 >여행</option>
-                        <option value= 13 >영화</option>
-                        <option value= 14 >휴식</option>
-                        <option value= 15 >기타</option>
-                        <option value= 16 >병원</option>
-                        <option value= 17 >식사</option>
-                    </select>
-                </label>
-                <br>
-                <label for ="task_title">제목 <input type="text" name ="task_title"></label>
-                <br>
-                <!-- <label for ="is_com">수행여부 <input type="checkbox" name = "is_com"></label> -->
-                <br>
-                <label for ="task_memo">메모 <input type="text" name = "task_memo"></label>
+                <table>
+                    <thead>
+                        <th>시작시간<input type="time" name = "start_time" ></label></th>
+                        <th>종료시간<input type="time" name = "end_time" ></label></th>
+                    </thead>
+                    <tbody>
+                    <label for ="category">카테고리
+                    
+                        <select name = "category_no">
+                            <!-- <option value= 0>카테고리를 선택해 주세요</option> -->
+                            <option value= 1 >독서</option>
+                            <option value= 2 >운동</option>
+                            <option value= 3 >공부</option>
+                            <option value= 4 >기상</option>
+                            <option value= 5 >취미</option>
+                            <option value= 6 >회의</option>
+                            <option value= 7 >쇼핑</option>
+                            <option value= 8 >요리</option>
+                            <option value= 9 >청소</option>
+                            <option value= 10 >친구</option>
+                            <option value= 11 >가족</option>
+                            <option value= 12 >여행</option>
+                            <option value= 13 >영화</option>
+                            <option value= 14 >휴식</option>
+                            <option value= 15 >기타</option>
+                            <option value= 16 >병원</option>
+                            <option value= 17 >식사</option>
+                        </select>
+                    </label>
+                    <br>
+                    <label for ="task_title">제목 <input type="text" name ="task_title"></label>
+                    <br>
+                    <!-- <label for ="is_com">수행여부 <input type="checkbox" name = "is_com"></label> -->
+                    <br>
+                    <label for ="task_memo">메모 <input type="text" name = "task_memo"></label>
+                </table>
                 <br>
                 <button type = "submit">작성</button>
             </div>

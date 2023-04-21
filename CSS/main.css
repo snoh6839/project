@@ -1,5 +1,12 @@
 @charset "UTF-8";
 
+@font-face {
+    font-family: 'Dovemayo_gothic';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.1/Dovemayo_gothic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 :root {
     /* color */
     --border-color: #A998DC;
@@ -19,6 +26,7 @@
     padding: 0;
     box-sizing: border-box;
     color: var(--font-color);
+    font-family: 'Dovemayo_gothic';
 }
 
 
@@ -65,6 +73,16 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
+}
+
+.bottom p {
+    line-height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+span {
+    color: var(--index1-color);
 }
 
 .contianer {
