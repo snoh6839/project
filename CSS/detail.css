@@ -37,7 +37,8 @@ input[type="date"]
     font-size: larger;
 }
 
-.listTable ul li input {
+.listTable ul li input[type="time"], .listTable ul li input[type="text"]
+{
     margin-left: 40px;
 }
 
@@ -56,13 +57,50 @@ input[type="date"]
     margin-bottom: 70px;
 }
 
-.photo {
-    width: 88%;
-    height: 80%;
-    border: 8px solid #fff;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
-    background-image: url('../SOURCE/detail_side.png');
-    background-repeat: no-repeat;
-    background-size: cover;
+.sun
+{
+    float:center;
+}
 
+#complete[type="checkbox"]
+{
+    appearance: none;
+    background-color: transparent;
+    width: 0.85em;
+    height: 0.85em;
+    border: 1px solid var(--index2-color);
+    border-radius: 0.15em;
+    text-align: center;
+    vertical-align: center;
+    position: relative;
+}
+
+#complete[type="checkbox"]:checked::after
+{
+    content: 'v';
+    color: var(--index2-color);
+    text-align: center;
+    vertical-align: center;
+    font-size: medium;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#complete
+{
+    margin-left: 5px;
+}
+
+
+input[type='date']::before
+{
+    content: attr(data-placeholder);
+    width: 100%;
+}
+input[type='date']:focus::before,
+input[trpe='date']:valid::before
+{
+    display:none;
 }

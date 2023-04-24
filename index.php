@@ -5,64 +5,31 @@ define("URL_DB", DOC_ROOT . "project/DB/db_conn.php");
 include_once(URL_DB);
 
 // DB 연결 객체 가져오기
-$db_conn = get_db_conn();
+db_conn($db_conn);
 if (!$db_conn) {
     // DB 연결 실패 시, 예외 발생
     throw new Exception("DB 연결에 실패했습니다.");
 }
 
-// 전체 데이터 수 가져오기
-$total_data_count = $db_conn->query('SELECT COUNT(*) FROM task')->fetchColumn();
 
-// task table과 category table을 별도로 조회한 후 PHP에서 조합하여 출력
-$sql = 'SELECT t.*, c.category_name FROM task t, category c WHERE t.category_no = c.category_no ORDER BY task_no DESC LIMIT :page_data_count OFFSET :start_index';
-$stmt = $db_conn->prepare($sql);
-$page_data_count = 5; // 페이지당 보여줄 데이터 수
+
+
+$page_data_count = 5;
+
+// 전체 페이지 수 계산
 $total_page_count = ceil($total_data_count / $page_data_count);
 
 // 해당 페이지에 보여줄 데이터 구하기
 $current_page_no = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $current_page_no = max($current_page_no, 1); // 페이지 번호는 1 이상이어야 함
 $current_page_no = min($current_page_no, $total_page_count); // 페이지 번호는 전체 페이지 수 이하이어야 함
-$start_data_index = ($current_page_no - 1) * $page_data_count; // 페이지의 시작 데이터 인덱스
-$stmt->bindParam(':start_index', $start_data_index, PDO::PARAM_INT);
-$stmt->bindParam(':page_data_count', $page_data_count, PDO::PARAM_INT);
-$stmt->execute();
-$task_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-//checked 시 수행 여부 업데이트
-function update_is_com($param_arr)
-{
-    $sql =
-        "UPDATE task
-        SET is_com = :is_com
-        WHERE task_no = :task_no";
+// 페이지의 시작 데이터 인덱스
+$start_data_index = ($current_page_no - 1) * $page_data_count;
 
-    $arr_prepare = array(
-        ":is_com" => $param_arr["is_com"],
-        ":task_no" => $param_arr["task_no"]
-    );
-
-    $db_conn = get_db_conn();
-
-    try {
-        $db_conn->beginTransaction();
-        $stmt = $db_conn->prepare($sql);
-        $stmt->execute($arr_prepare);
-        $result = $stmt->rowCount();
-        $db_conn->commit();
-    } catch (Exception $e) {
-        $db_conn->rollback();
-        return $e->getMessage();
-    } finally {
-        if ($db_conn !== null) {
-            $db_conn = null;
-        }
-    }
-    return $result;
-}
-
-
+// 함수 호출
+$list_page_fnc = list_page($start_data_index, $page_data_count);
+// var_dump($list_page_fnc);
 
 
 $http_method = $_SERVER["REQUEST_METHOD"];
@@ -90,6 +57,11 @@ if ($http_method === "POST") {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>미라클 모닝</title>
+    <!-- favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="./SOURCE/favicon_io">
+    <link rel="icon" type="image/png" sizes="32x32" href="./SOURCE/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./SOURCE/favicon_io/favicon-16x16.png">
+    <link rel="manifest" href="./SOURCE/favicon_io/site.webmanifest">
     <!-- css 링크 -->
     <link rel="stylesheet" href="./css/main.css">
 </head>
@@ -100,17 +72,19 @@ if ($http_method === "POST") {
             <h1>미라클 모닝 <span>실천방법</span></h1>
         </div>
         <div class="bottom">
-            <p>1) <span>침묵의 시간</span> 갖기 - 삶의 목적 찾기<br>
-                2) <span>확신</span>과 <span>다짐</span>의 말하기 - 잠재의식 프로그래밍<br>
-                3) <span>직관</span>의 <span>시각화</span> - 이상적인 하루와 나의 모습<br>
-                4) <span>아침 운동</span>하기 - 가장 좋아하고 몸 상태에 맞는<br>
-                5) <span>독서</span>하기 -목적 독서<br>
-                6) <span>기록</span>하기 - 아침 일기</p>
+            <div class="update">
+                <p>1) <span>침묵의 시간</span> 갖기 - 삶의 목적 찾기<br>
+                    2) <span>확신</span>과 <span>다짐</span>의 말하기 - 잠재의식 프로그래밍<br>
+                    3) <span>직관</span>의 <span>시각화</span> - 이상적인 하루와 나의 모습<br>
+                    4) <span>아침 운동</span>하기 - 가장 좋아하고 몸 상태에 맞는<br>
+                    5) <span>독서</span>하기 - 목적 독서<br>
+                    6) <span>기록</span>하기 - 아침 일기</p>
+            </div>
         </div>
     </div>
     <div class="contianer">
         <div class="title top">
-            <h1><img src="./source/sun.png">  MIRACLE MORNING  <img src="./source/sun.png"></h1>    
+            <h1><img src="./source/sun.png"> MIRACLE MORNING <img src="./source/sun.png"></h1>
         </div>
         <div class="bottom">
             <div class="listTable">
@@ -125,7 +99,7 @@ if ($http_method === "POST") {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($task_data as $data) { ?>
+                        <?php foreach ($list_page_fnc as $data) { ?>
                             <tr <?php echo $data['is_com'] == '1' ? 'class="completed"' : '' ?>>
 
                                 <td><a href="/project/detail.php?task_no=<?php echo $data["task_no"] ?>"><?php echo $data['task_no'] ?></a></td>
@@ -182,8 +156,8 @@ if ($http_method === "POST") {
         </div>
     </div>
     <div class="btn-wrap">
-        <a href="/project/graph.php" class="btn index1">통계</a>
-        <a href="/project/write.php" class="btn index2">추가</a>
+        <a href="/project/graph.php" class="btn index2">분석</a>
+        <a href="/project/write.php" class="btn index1">추가</a>
     </div>
 </body>
 

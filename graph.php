@@ -4,7 +4,7 @@ define( "URL_DB", DOC_ROOT."project/DB/db_conn.php");
 include_once( URL_DB );
 
 
-$conn = get_db_conn();
+db_conn($conn);
 
 
 
@@ -14,40 +14,21 @@ if ($http_method === "POST"  )
     $start_date = $_POST['start_date'];
     $end_date = $_POST['end_date'];
 }
-// 최근 일주일간의 기상카테고리 시작시간 평균 구하는 쿼리
-$sql1 = "SELECT floor(AVG(TIME_TO_SEC(start_time))) AS avg_start_time
-        FROM Task
-        WHERE category_no = (SELECT category_no FROM Category WHERE category_name = '기상')
-        AND task_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) ";
-  
-$result1 = $conn->query($sql1);
-$row1 = $result1->fetchAll();
 
+
+// 최근 일주일간의 기상카테고리 시작시간 평균 구하는 쿼리
+
+$wake_up_result = wake_up_fnc();
 
 // 최근 한달간의 카테고리별 사용 횟수 구하는 쿼리
 
-$sql2 = " SELECT category_name, COUNT(category_name) AS num_count
-        FROM Category c
-        JOIN Task t ON c.category_no = t.category_no
-        WHERE task_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH)
-        AND c.category_name != '기상'
-        GROUP BY c.category_name
-        ORDER BY num_count DESC LIMIT 3 ";
 
-// $limit_num = 5;
-// $stmt->bindParam(':limit_num' , $limit_num, PDO::PARAM_INT);
-// $stmt->execute();
-$result2 = $conn->query($sql2);
+$count_month_fnc = month_cnt();
 
 
 
 
-$sql3 = "SELECT 
-            (SELECT COUNT(*) FROM task WHERE is_com = '1') /
-            (SELECT COUNT(*) FROM task) AS completion_ratio";
-$result3 = $conn->query($sql3);
-$evalu = $result3->fetchall();
-
+$avg_fnc = value_avg_fnc();
 // var_dump($result3);
 // $sql3 = " SELECT 
 // 	(SELECT COUNT(*) FROM task where is_com = '1')/
@@ -82,7 +63,72 @@ $evalu = $result3->fetchall();
 <body>
 <div class="sidebox">
     <div class="top"></div>
-    <div class="bottom"></div>
+    <div class="bottom">
+        
+            <div id="slider">
+                <ul>
+                    <li>
+                    <div class="slider-container">
+                        <p>"하루의 시작은 아침에 결정된다. 아침에 마음을 다잡고</p> 
+                        <p> 열심히 하루를 시작하면 좋은 결과가 따를 것이다."</p>
+                        <p> - 드웨인 존슨 - </p>
+                    </div>
+                    </li>
+                    
+                    <li>
+                        <div class="slider-container">
+                        <p>"아침에 잘 시작하면 좋은 결실을 맺을 수 있다." </p>
+                        <p>- 이사야 토마스 - </p>
+                    </div>
+                    </li>
+                    
+                    <li>
+                        <div class="slider-container">
+                        <p>"아침 해를 보며 미소 짓는 것은 하루를</p>
+                        <p>  긍정적으로 시작하는 가장 좋은 방법이다."</p>
+                        
+                        <p> - 마크 트웨인 - </p>
+                    </div>
+                    </li>
+                    
+                    <li>
+                        <div class="slider-container">
+                        <p>"아침에 일찍 일어나는 것은 성공의 첫걸음이다."</p>
+                        <p> - 아리스토텔레스 - </p>
+                    </div>
+                    </li>
+                    <li>
+                        <div class="slider-container">
+                        <p>"아침에 일어나서 감사하는 마음으로 하루를 시작하면,</P>
+                        <p> 행복과 희망이 가득한 하루가 될 것이다."</p>
+                        <p> - 루이스 헤이 - </p>
+                    </div>
+                    </li>
+                    <li>
+                        <div class="slider-container">
+                        <p>"새로운 날은 새로운 시작을 의미한다. 아침은 어제의 실수를 바로잡고</p>
+                        <p> 더 나은 삶을 시작할 수 있는 시간이다."</p>
+                        <p> - 스티브 마를렛 - </p>
+                    </div>
+                    </li>
+                    <li>
+                        <div class="slider-container">
+                        <p>"새벽에 눈을 뜨면 하루를 더 살아갈 수 있는 특별한 선물을 받은 것이다."</P>
+                        <p> - 이자크 바쉐비스 싱어 - </p>
+                    </div>
+                    </li>
+                    <li>
+                        <div class="slider-container">
+                        <p>"사람의 삶은 매일 아침에 새롭게 시작된다." </p>
+                        <p> - 레프 톨스토이 - </p>
+                    </div>
+                    </li>
+                </ul>
+               
+        </div>
+        <div class="photo"></div>
+         <!-- <img src="./SOURCE/arrow1.png" alt=""> -->
+    </div>
 </div>
 <div class = "contianer">
     <div class = "title top">
@@ -95,11 +141,11 @@ $evalu = $result3->fetchall();
                     
                         <tr>
                             <td>최근 한달 평균 기상시간: </td>
-                            <td> <?php foreach ($row1 as $avg){ ?> <?php echo gmdate("H시 i분 s초", $avg["avg_start_time"]);?> <?php } ?></td>
+                            <td> <?php foreach ($wake_up_result as $avg){ ?> <?php echo gmdate("H시 i분 s초", $avg["avg_start_time"]);?> <?php } ?></td>
                         </tr>
 
                         <tr>
-                            <td>최근 한달 활동 TOP3<span>(기상제외)</span> <?php $i = 1; foreach ($result2 as $row2) { ?>
+                            <td>최근 한달 활동 TOP3<span>(기상제외)</span> <?php $i = 1; foreach ($count_month_fnc as $row2) { ?>
                             </td>
                         </tr>
                         <tr>
@@ -116,7 +162,7 @@ $evalu = $result3->fetchall();
             <div>
                 <tr>
                         <td>
-                            수행율: <?php foreach ($evalu as $completion_ratio) {  echo $completion_ratio['completion_ratio']* 100; }?> % 
+                            수행율: <?php foreach ($avg_fnc as $completion_ratio) {  echo $completion_ratio['completion_ratio']* 100; }?> % 
                         </td>
                         <td>
                             <div class = "sticy">

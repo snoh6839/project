@@ -1,0 +1,14 @@
+.top .input[type="date"]::-webkit-calendar-picker-indicator
+{
+    opacity:0;
+    z-index: 1;
+    cursor: pointer;
+    font-size: 50px;
+}
+
+
+.img{
+    
+    width: 200px;
+    height: 200px;
+}

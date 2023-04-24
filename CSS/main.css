@@ -47,6 +47,8 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
+    min-width: 1200px;
+    min-height: 880px;
 }
 
 .sidebox {
@@ -76,6 +78,8 @@ body {
     align-items: center;
     justify-content: space-around;
     box-shadow: -20px 0px 20px -10px rgba(0, 0, 0, 0.2);
+    min-height: 540px;
+
 }
 
 .bottom p {
@@ -154,7 +158,8 @@ td {
     border-radius: 0.15em;
 }
 
-.checkbox_btn_com::after {
+.checkbox_btn_com::after
+{
     content: 'v';
     color: var(--index2-color);
     text-align: center;
@@ -223,4 +228,18 @@ td {
 
 .index2 {
     background-color: var(--index2-color);
+}
+
+.update {
+    line-height: 25px;
+    font-size: 20px;
+    border: 2px solid var(--index2-color);
+    padding: 20px;
+    text-align: center;
+} 
+
+#img {
+    width: 90%;
+    display: block;
+    margin: 0px auto;
 }
