@@ -96,12 +96,23 @@ if ($http_method === "POST") {
 
 <body>
     <div class="sidebox">
-        <div class="top"></div>
-        <div class="bottom"></div>
+        <div class="top">
+            <h1>미라클 모닝 <span>실천방법</span></h1>
+        </div>
+        <div class="bottom">
+            <div class="update">
+                <p>1) <span>침묵의 시간</span> 갖기 - 삶의 목적 찾기<br>
+                    2) <span>확신</span>과 <span>다짐</span>의 말하기 - 잠재의식 프로그래밍<br>
+                    3) <span>직관</span>의 <span>시각화</span> - 이상적인 하루와 나의 모습<br>
+                    4) <span>아침 운동</span>하기 - 가장 좋아하고 몸 상태에 맞는<br>
+                    5) <span>독서</span>하기 - 목적 독서<br>
+                    6) <span>기록</span>하기 - 아침 일기</p>
+            </div>
+        </div>
     </div>
     <div class="contianer">
         <div class="title top">
-            <h1>MIRACLE MORNING</h1>
+            <h1><img src="./source/sun.png">  MIRACLE MORNING  <img src="./source/sun.png"></h1>    
         </div>
         <div class="bottom">
             <div class="listTable">
@@ -173,8 +184,8 @@ if ($http_method === "POST") {
         </div>
     </div>
     <div class="btn-wrap">
-        <a href="/project/graph.php" class="btn index1">그래프</a>
-        <a href="/project/write.php" class="btn index2">추가</a>
+        <a href="/project/graph.php" class="btn index2">분석</a>
+        <a href="/project/write.php" class="btn index1">추가</a>
     </div>
 </body>
 
