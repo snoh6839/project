@@ -61,11 +61,14 @@ if ($http_method === "POST") {
         </div>
     </div>
     <div class="contianer">
-        <div class="title top">
-            <form method="post" action="">
-                <label for="date_title"><img src="./source/sun.png">&nbsp;&nbsp;
-                <input type="date" name="task_date" data-placeholder=" 날짜를 선택해주세요." reqired>
-                </label>&nbsp;&nbsp;<img src="./source/sun.png">
+    <div class="title top">
+        <form method = "post" action = "">
+            <label for = "date_title"><img src="./source/sun.png">&nbsp;&nbsp;
+<<<<<<< HEAD
+            <input type="date" name = "task_date" data-placeholder = " 날짜를 선택해주세요."  reqired></label>&nbsp;&nbsp;<img src="./source/sun.png">
+=======
+            <input type="date" name = "task_date" reqired></label>&nbsp;&nbsp;<img src="./source/sun.png">
+>>>>>>> d1e6fae733320efc0443b909fe2f15aa7716dcf1
         </div>
         <div class="bottom">
             <div class="listTable">
