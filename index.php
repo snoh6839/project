@@ -58,10 +58,7 @@ if ($http_method === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>미라클 모닝</title>
     <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="./SOURCE/favicon_io">
-    <link rel="icon" type="image/png" sizes="32x32" href="./SOURCE/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./SOURCE/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="./SOURCE/favicon_io/site.webmanifest">
+    <link rel="icon" href="./SOURCE/sun2.png">
     <!-- css 링크 -->
     <link rel="stylesheet" href="./css/main.css">
 </head>

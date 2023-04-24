@@ -48,11 +48,7 @@ body {
     display: flex;
     align-items: center;
     min-width: 1200px;
-<<<<<<< HEAD
     min-height: 880px;
-=======
-    min-height: 800px;
->>>>>>> d1e6fae733320efc0443b909fe2f15aa7716dcf1
 }
 
 .sidebox {
@@ -239,10 +235,6 @@ td {
     font-size: 20px;
     border: 2px solid var(--index2-color);
     padding: 20px;
-<<<<<<< HEAD
-=======
-    max-width: 85%;
->>>>>>> d1e6fae733320efc0443b909fe2f15aa7716dcf1
     text-align: center;
 } 
 
