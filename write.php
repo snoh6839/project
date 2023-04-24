@@ -30,11 +30,18 @@ if ( $http_method === "POST" )
 </head>
 <body>
     <div class="sidebox">
+<<<<<<< HEAD
         <div class="top">
         <h1>미라클 모닝 <span>추천 루틴</span><h1>
         </div>
         <div class="bottom">
             <div class="update">
+=======
+        <div class="top"></div>
+        <div class="bottom">
+            <div class="update">
+                <span>미라클 모닝 추천 루틴</span><br><br>
+>>>>>>> d1e6fae733320efc0443b909fe2f15aa7716dcf1
                 6:30 아침 기상 <br>
                 6:30~7:30 모닝 루틴 (1시간)<br><br>
                 - 요가 또는 스트레칭 15분<br>
@@ -56,7 +63,11 @@ if ( $http_method === "POST" )
     <div class="title top">
         <form method = "post" action = "">
             <label for = "date_title"><img src="./source/sun.png">&nbsp;&nbsp;
+<<<<<<< HEAD
             <input type="date" name = "task_date" data-placeholder = " 날짜를 선택해주세요."  reqired></label>&nbsp;&nbsp;<img src="./source/sun.png">
+=======
+            <input type="date" name = "task_date" reqired></label>&nbsp;&nbsp;<img src="./source/sun.png">
+>>>>>>> d1e6fae733320efc0443b909fe2f15aa7716dcf1
         </div>
         <div class="bottom">
             <div class="listTable">
