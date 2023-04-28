@@ -25,11 +25,13 @@ else {
     // update
     $result_cnt = update_task_info_no($arr_info);
 
+    // 저장 후 상세페이지로 돌아감
     header("Location: detail.php?task_no=" . $arr_post["task_no"]);
-    exit(); // 36행에서 redirect 했기 때문에 이후의 소스코드는 실행할 필요가 없다.
+    exit();
 }
 ?>
 
+<!-- HTML 페이지에 표시할 코드 작성 -->
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -39,10 +41,7 @@ else {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 수정페이지</title>
     <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="./SOURCE/favicon_io">
-    <link rel="icon" type="image/png" sizes="32x32" href="./SOURCE/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./SOURCE/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="./SOURCE/favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="./SOURCE/sun2.png">
     <!-- css -->
     <link href="./css/main.css" rel="stylesheet" type="text/css">
     <link href="./css/detail.css" rel="stylesheet" type="text/css">
@@ -52,6 +51,7 @@ else {
     <div class="sidebox">
         <div class="top"></div>
         <div class="bottom">
+            <!-- 사이드 부분 이미지, 글 -->
             <div class="update">
                 매일 <span>아침</span> 눈뜨며 생각하자.<br><br>
                 오늘 <span>아침</span> 일어날 수 있으니<br>
@@ -61,16 +61,14 @@ else {
                 나는 스스로를 <span>발전</span>시키고<br>
                 타인에게 나의 마음을 <span>확장</span>시켜<br>
                 나가기 위해 모든 기운을 쏟을 것이다.<br><br>
-                <<<<<<< HEAD 내 힘이 닿는 데까지 <span>타인</span>을 이롭게 할 것이다.
-                    =======
-                    내 힘이 닿는 데까지<span>타인</span>을 이롭게 할 것이다.
-                    >>>>>>> d1e6fae733320efc0443b909fe2f15aa7716dcf1
+                내 힘이 닿는 데까지 <span>타인</span>을 이롭게 할 것이다.
             </div>
         </div>
     </div>
     <div class="contianer">
         <div class="title top">
             <form method="post" action="update.php" id="form">
+                <!-- 히든 값으로 task_no를 받아와서 매칭 시켜줌 -->
                 <input type="hidden" value="<?php echo $result_info["task_no"] ?>" name="task_no">
                 <label for="date"></label><img src="./source/sun.png">&nbsp;&nbsp;
                 <input type="date" value="<?php echo $result_info["task_date"] ?>" name="task_date" reqired>&nbsp;&nbsp;<img src="./source/sun.png">
@@ -80,38 +78,39 @@ else {
                 <ul>
                     <li>
                         <label for="start_time">시작시간 </label>
-                        <input type="time" value="<?php echo $result_info["start_time"] ?>" name="start_time" reqired>
+                        <input type="time" value="<?php echo $result_info["start_time"] ?>" name="start_time" required>
                     </li>
                     <li>
                         <label for="end_time">종료시간 </label>
-                        <input type="time" value="<?php echo $result_info["end_time"] ?>" name="end_time" reqired>
+                        <input type="time" value="<?php echo $result_info["end_time"] ?>" name="end_time" required>
                     </li>
                     <li>
+                        <!-- select로 카테고리 값 선택 -->
                         <label for="category">카테고리
-                            <select name="category_no" reqired>
-                                <option value=1>독서</option>
-                                <option value=2>운동</option>
-                                <option value=3>공부</option>
-                                <option value=4>기상</option>
-                                <option value=5>취미</option>
-                                <option value=6>회의</option>
-                                <option value=7>쇼핑</option>
-                                <option value=8>요리</option>
-                                <option value=9>청소</option>
-                                <option value=10>친구</option>
-                                <option value=11>가족</option>
-                                <option value=12>여행</option>
-                                <option value=13>영화</option>
-                                <option value=14>휴식</option>
-                                <option value=15>기타</option>
-                                <option value=16>병원</option>
-                                <option value=17>식사</option>
-                            </select>
+                        <select name="category_no" required>
+                            <option value="1" <?php echo $result_info["category_name"] == '독서' ? 'selected' : '' ?>>독서</option>
+                            <option value="2" <?php echo $result_info["category_name"] == '운동' ? 'selected' : '' ?>>운동</option>
+                            <option value="3" <?php echo $result_info["category_name"] == '공부' ? 'selected' : '' ?>>공부</option>
+                            <option value="4" <?php echo $result_info["category_name"] == '기상' ? 'selected' : '' ?>>기상</option>
+                            <option value="5" <?php echo $result_info["category_name"] == '취미' ? 'selected' : '' ?>>취미</option>
+                            <option value="6" <?php echo $result_info["category_name"] == '회의' ? 'selected' : '' ?>>회의</option>
+                            <option value="7" <?php echo $result_info["category_name"] == '쇼핑' ? 'selected' : '' ?>>쇼핑</option>
+                            <option value="8" <?php echo $result_info["category_name"] == '요리' ? 'selected' : '' ?>>요리</option>
+                            <option value="9" <?php echo $result_info["category_name"] == '청소' ? 'selected' : '' ?>>청소</option>
+                            <option value="10" <?php echo $result_info["category_name"] == '친구' ? 'selected' : '' ?>>친구</option>
+                            <option value="11" <?php echo $result_info["category_name"] == '가족' ? 'selected' : '' ?>>가족</option>
+                            <option value="12" <?php echo $result_info["category_name"] == '여행' ? 'selected' : '' ?>>여행</option>
+                            <option value="13" <?php echo $result_info["category_name"] == '영화' ? 'selected' : '' ?>>영화</option>
+                            <option value="14" <?php echo $result_info["category_name"] == '휴식' ? 'selected' : '' ?>>휴식</option>
+                            <option value="15" <?php echo $result_info["category_name"] == '기타' ? 'selected' : '' ?>>기타</option>
+                            <option value="16" <?php echo $result_info["category_name"] == '병원' ? 'selected' : '' ?>>병원</option>
+                            <option value="17" <?php echo $result_info["category_name"] == '식사' ? 'selected' : '' ?>>식사</option>
+                        </select>
                         </label>
                     </li>
                     <li>
                         <label for="title">제목 </label>
-                        <input type="text" value="<?php echo $result_info["task_title"] ?>" name="task_title" id="title" reqired>
+                        <input type="text" value="<?php echo $result_info["task_title"] ?>" name="task_title" id="title" required>
                     </li>
                     <li>
                         <label for="complete">수행여부 완료</label>
@@ -119,8 +118,8 @@ else {
                         <input type="checkbox" name="is_com" value="1" <?php echo $result_info['is_com'] == '1' ? 'checked' : '' ?> id="complete">
                     </li>
                     <li>
-                        <label for="memo">메모 </label>
-                        <input type="text" value="<?php echo $result_info["task_memo"] ?>" name="task_memo" id="memo">
+                        <label for="task_memo" id="memo">메모 </label>
+                        <textarea name="task_memo" id="task_memo" cols="30" rows="10" placeholder="<?php echo $result_info["task_memo"] ?>"></textarea>
                     </li>
                 </ul>
             </div>

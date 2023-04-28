@@ -95,7 +95,7 @@ $total_data_count = total_data();
 function list_page($start_data_index, $page_data_count)
 {
 
-    $sql = 'SELECT t.*, c.category_name FROM task t, category c WHERE t.category_no = c.category_no ORDER BY task_no DESC LIMIT :page_data_count OFFSET :start_index';
+    $sql = 'SELECT t.*, c.category_name FROM task t, category c WHERE t.category_no = c.category_no ORDER BY is_com asc,task_no DESC LIMIT :page_data_count OFFSET :start_index';
 
     
     try 
@@ -129,6 +129,7 @@ function list_page($start_data_index, $page_data_count)
 // ---------------------------------
 function select_task_info_no( &$param_no )
 {
+    // task 테이블, category 테이블 값을 표시하는 쿼리
 	$sql =
 		" SELECT "
 		."	ts.task_no "
@@ -146,6 +147,7 @@ function select_task_info_no( &$param_no )
 		."	ts.task_no = :task_no "
 		;
 
+        // task_no로 매칭
 	$arr_prepare =
 		array(
 			":task_no"	=> $param_no
@@ -154,36 +156,36 @@ function select_task_info_no( &$param_no )
 	$conn = null;
 	try
 	{
-		db_conn( $conn );
-		$stmt = $conn->prepare( $sql );
-		$stmt->execute( $arr_prepare );
+		db_conn( $conn ); // PDO object set(DB연결)
+		$stmt = $conn->prepare( $sql ); // statement object set
+		$stmt->execute( $arr_prepare ); // DB request
 		$result = $stmt->fetchAll();
 	}
 	catch( Exception $e )
 	{
-		return $e->getMessage();
+		return $e->getMessage(); // DB연결 실패시 메세지 표시
 	}
 	finally
 	{
-		$conn = null;
+		$conn = null; // PDO 파기
 	}
 
 	return $result[0]; // 조건을 PK로 걸어줘서, 리턴값이 1개만 있기 때문에 [0]을 적어줌.
 }
 
-//기상 값의 평균만을 가져오는 쿼리문
+//'기상' 값의 평균만을 가져오는 쿼리문 - sql문을 이용해서 카테고리가 기상인 데이터를 추출해서 그안에서 최근 1달간의 날짜의 횟수를 뽑아 낸다.
 function wake_up_fnc()
 {
-$sql1 = "SELECT floor(AVG(TIME_TO_SEC(start_time))) AS avg_start_time
+$sql1 = " SELECT floor(AVG(TIME_TO_SEC(start_time))) AS avg_start_time 
         FROM Task
         WHERE category_no = (SELECT category_no FROM Category WHERE category_name = '기상')
         AND task_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) ";
 
     try 
     {
-        db_conn($conn);
-        $result1 = $conn->query($sql1);
-        $row1 = $result1->fetchAll();
+        db_conn($conn); // PDO object set(DB연결)
+        $result1 = $conn->query($sql1); //sql문 연결문
+        $row1 = $result1->fetchAll(); // 전체 데이터의 레코드를 배열로 받아옵니다.
     } 
     catch (Exception $e) 
     {
@@ -197,7 +199,8 @@ $sql1 = "SELECT floor(AVG(TIME_TO_SEC(start_time))) AS avg_start_time
     return $row1;
 }
 
-//월별 카테고리별 수행 횟수를 추출하는 함수
+
+//월별 카테고리별 수행 횟수를 추출하는 함수 - 최근 한달간 기상을 제외한 나머지 카테고리 수를 뽑아 오기 위한 쿼리문
 function month_cnt()
 {
 $sql2 = " SELECT category_name, COUNT(category_name) AS num_count
@@ -230,7 +233,7 @@ $sql2 = " SELECT category_name, COUNT(category_name) AS num_count
     return $result2;
 }
 
-//월별 수행결과 물의 횟수를 가져오는 함수
+//월별 수행결과 횟수를 가져오는 함수 - 수행 결과를 1로 값을 받아서 1인 값들의 비율을 찾도록 하기 위함
 function value_avg_fnc()
 {
 $sql3 = "SELECT 
@@ -384,13 +387,14 @@ function write_info(&$param_arr)
 
 
         $db_conn = null;
+
         try 
         {
             db_conn($db_conn); //PDO object 셋
             $db_conn->beginTransaction(); //Transaction 시작 : 데이터를 변경하기(insert, update, delete) 때문에 일련의 연산이 완료되면 commit 실패시 rollback을 통해서 데이터를 관리 하게 시킨다. 
             $stmt = $db_conn->prepare( $sql ); //statement object 셋팅
             $stmt->execute( $arr_prepare ); //DB request
-            $result_cnt = $stmt->rowCount(); // 업데이트 되서 영향을 받은 행의 숫자를 가져온다.
+            $result_cnt = $db_conn->lastInsertId();
             $db_conn->commit();
             
         } 
@@ -403,6 +407,7 @@ function write_info(&$param_arr)
         {
             $db_conn = null;
         }
+        return $result_cnt;
 }
 
 

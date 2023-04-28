@@ -47,14 +47,9 @@ input[type="date"]
     margin-left: 5px;
 }
 
-#title, #memo
+#title, #task_memo
 {
     margin-left: 71px;
-}
-
-#memo
-{
-    margin-bottom: 70px;
 }
 
 .sun
@@ -93,14 +88,33 @@ input[type="date"]
     margin-left: 5px;
 }
 
-
 input[type='date']::before
 {
     content: attr(data-placeholder);
     width: 100%;
 }
+
 input[type='date']:focus::before,
 input[trpe='date']:valid::before
 {
     display:none;
+}
+
+textarea
+{
+    width: 550px;
+    height: 100px;
+    resize: none;
+    border: none;
+    background: transparent;
+    display: inline-block;
+    font-size: large;
+    vertical-align: middle;
+    color: #605E61;
+}
+
+textarea:focus
+{
+    outline: none;
+    border: none;
 }
