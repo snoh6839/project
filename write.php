@@ -3,17 +3,18 @@ define("DOC_ROOT", $_SERVER["DOCUMENT_ROOT"] . "/");
 define("URL_DB", DOC_ROOT . "project/DB/db_conn.php");
 include_once(URL_DB);
 
-// 입력한 데이터들을 받아와서 최종적으로 index페이지로 전송해 주도록 하는 구문
+// 입력한 데이터들을 받아와서 최종적으로 index페이지로 전송해 주도록 하는 구문 
+// - 현 구문은 SERVER라는 슈퍼글로벌 변수에 post, get등 어떤것으로 받을지를 선택하는 구문
 $http_method = $_SERVER["REQUEST_METHOD"];
 if ($http_method === "POST") {
     $arr_post = $_POST;
 
     $result_write = write_info($arr_post);
-    header("location:index.php");
+    $result_detail = select_task_info_no($result_write);
+    header("location:detail.php?task_no=".$result_detail["task_no"]);
     exit();
 }
-
-
+// 'header' 내장 함수를 가지고 최종적으로 index 페이지로 보내는 역활을 한다.
 
 ?>
 
@@ -26,10 +27,7 @@ if ($http_method === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>작성페이지</title>
     <!-- favicon -->
-    <link rel="apple-touch-icon" sizes="180x180" href="./SOURCE/favicon_io">
-    <link rel="icon" type="image/png" sizes="32x32" href="./SOURCE/favicon_io/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="./SOURCE/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="./SOURCE/favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="./SOURCE/sun2.png">
     <!-- css -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/detail.css">
@@ -39,10 +37,11 @@ if ($http_method === "POST") {
 
 <body>
     <div class="sidebox">
-        <div class="top"></div>
+        <div class="top">
+        <h1>미라클 모닝 <span>추천 루틴</span><h1>
+        </div>
         <div class="bottom">
             <div class="update">
-                <span>미라클 모닝 추천 루틴</span><br><br>
                 6:30 아침 기상 <br>
                 6:30~7:30 모닝 루틴 (1시간)<br><br>
                 - 요가 또는 스트레칭 15분<br>
@@ -72,15 +71,15 @@ if ($http_method === "POST") {
                 <ul>
                     <li>
                         <label for="start_time">시작시간 </label>
-                        <input type="time" name="start_time" reqired>
+                        <input type="time" name="start_time" required>
                     </li>
                     <li>
                         <label for="end_time">종료시간 </label>
-                        <input type="time" name="end_time" reqired>
+                        <input type="time" name="end_time" required>
                     </li>
                     <li>
                         <label for="category">카테고리
-                            <select name="category_no" reqired>
+                            <select name="category_no" required>
                                 <option value=1>독서</option>
                                 <option value=2>운동</option>
                                 <option value=3>공부</option>
@@ -103,11 +102,11 @@ if ($http_method === "POST") {
                     </li>
                     <li>
                         <label for="task_title">제목 </label>
-                        <input type="text" name="task_title" id="title" reqired>
+                        <input type="text" name="task_title" id="title" required>
                     </li>
                     <li>
-                        <label for="task_memo">메모 </label>
-                        <input type="text" name="task_memo" id="memo">
+                        <label for="task_memo" id="memo">메모 </label>
+                        <textarea name="task_memo" id="task_memo" cols="30" rows="10"></textarea>
                     </li>
                 </ul>
             </div>

@@ -7,7 +7,7 @@ include_once(URL_DB);
 db_conn($conn);
 
 
-
+// 글로벌 함수 인 SERVER를 사용해서 html에서 보내준 데이터를 어떤 방식으로 받아 오는지를 확인해주는 것을 if문을 사용해서 post방식으로 받아온다는 것을 정의
 $http_method = $_SERVER["REQUEST_METHOD"];
 if ($http_method === "POST") {
     $start_date = $_POST['start_date'];
@@ -16,17 +16,14 @@ if ($http_method === "POST") {
 
 
 // 최근 일주일간의 기상카테고리 시작시간 평균 구하는 쿼리
-
 $wake_up_result = wake_up_fnc();
 
 // 최근 한달간의 카테고리별 사용 횟수 구하는 쿼리
-
-
 $count_month_fnc = month_cnt();
 
 
 
-
+//수행율을 구하기 위한 쿼리문 을 불러오는 함수이다. 
 $avg_fnc = value_avg_fnc();
 // var_dump($result3);
 // $sql3 = " SELECT 
@@ -61,7 +58,7 @@ $avg_fnc = value_avg_fnc();
     <link rel="apple-touch-icon" sizes="180x180" href="./SOURCE/favicon_io">
     <link rel="icon" type="image/png" sizes="32x32" href="./SOURCE/favicon_io/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="./SOURCE/favicon_io/favicon-16x16.png">
-    <link rel="manifest" href="./SOURCE/favicon_io/site.webmanifest">
+    <link rel="shortcut icon" href="./SOURCE/sun2.png">
     <!-- css -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/graph.css">
@@ -72,7 +69,7 @@ $avg_fnc = value_avg_fnc();
         <div class="top"></div>
         <div class="bottom">
 
-            <div id="slider">
+            <div id="slider"> 
                 <ul>
                     <li>
                         <div class="slider-container">
@@ -170,8 +167,8 @@ $avg_fnc = value_avg_fnc();
                         <div>
                             <tr>
                                 <td>
-                                    수행율: <?php foreach ($avg_fnc as $completion_ratio) {
-                                                echo $completion_ratio['completion_ratio'] * 100;
+                                    수행율: <?php foreach ($avg_fnc as $completion_ratio) { // foreach문을 이용해서 수행한 카테고리별 횟수를 불러 온다.
+                                                echo $completion_ratio['completion_ratio'] * 100;  //sql문의 수행 평균 값을 가지고와서 비율로 만들어 준다.
                                             } ?> %
                                 </td>
                                 <td>

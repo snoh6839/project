@@ -1,0 +1,11 @@
+구글 드라이브 공유 폴더 링크
+https://drive.google.com/drive/folders/1RsQDXXmr3oEE9tVDc1S9qSkgaXnRoxLc?usp=share_link 
+
+노션 링크
+https://www.notion.so/4fbe55c075104f79b2472f58d4f728e2?v=4711a53396224f8aba45451a0cb2a44e&pvs=4
+
+깃허브 링크
+https://github.com/PHP-506-1/PHP_1STPJ.git
+
+피그마 링크
+https://www.figma.com/file/9RV1lM9QvhijFTf8yWvdYj/Untitled-(Copy)?node-id=0%3A1&t=iXVZ01GKE2Rr0a2i-1

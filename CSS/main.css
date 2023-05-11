@@ -27,6 +27,7 @@
     box-sizing: border-box;
     color: var(--font-color);
     font-family: 'Dovemayo_gothic';
+    cursor: url(../SOURCE/clover.png), auto;
 }
 
 
@@ -124,7 +125,18 @@ tr {
 }
 
 tr.completed {
-    text-decoration: line-through;
+    position: relative;
+}
+
+tr.completed::after {
+    content: "";
+    position: absolute;
+    width: 80%;
+    height: 3px;
+    left: 4%;
+    top: calc(50% - 3px);
+    background-color: var(--index2-color);
+    pointer-events: none;
 }
 
 th {
